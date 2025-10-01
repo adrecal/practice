@@ -1,131 +1,139 @@
 import java.io.*;  
-import java.util.*;  
+// Importa todas as classes do pacote java.io, usadas para operações de entrada e saída (I/O), como salvar ou ler arquivos.
+sc.nextLine();  
+// Lê a próxima linha digitada no console (Scanner "sc").  
+// Muitas vezes é usado após sc.nextInt() para "limpar" o buffer do Enter.
+if (op == 0) break;  
+// Se a variável 'op' (opção escolhida no menu) for igual a 0, interrompe o loop (encerra o programa/menu).
+switch (op) {  
+// Estrutura condicional de múltipla escolha (menu).  
+// Verifica o valor de 'op' e executa o bloco correspondente.
+switch (op) {  
+// Estrutura condicional de múltipla escolha (menu).  
+// Verifica o valor de 'op' e executa o bloco correspondente.
+case 1:  
+System.out.print("Nome: ");  
+String nome = sc.nextLine();  
+// Pede e lê o nome do usuário.
 
-// Classe principal
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);  // Scanner para ler entradas do usuário
-        Usuario usuario = null;               // Variável que vai guardar o usuário logado/cadastrado
-        Service service = new Service();      // Classe de serviço que gerencia os eventos
-        String arquivo = "eventos.txt";       // Nome do arquivo para salvar eventos
+System.out.print("Email: ");  
+String email = sc.nextLine();  
+// Pede e lê o e-mail.
 
-        int op; // opção do menu
+System.out.print("Cidade: ");  
+String cidade = sc.nextLine();  
+ // Pede e lê a cidade.
 
-        while (true) {  
-            // Exibe menu simples
-            System.out.println("\n--- MENU ---");
-            System.out.println("1 - Cadastrar Usuário");
-            System.out.println("2 - Cadastrar Evento");
-            System.out.println("3 - Listar Eventos");
-            System.out.println("4 - Listar Eventos Atuais");
-            System.out.println("5 - Listar Eventos Passados");
-            System.out.println("6 - Participar de Evento");
-            System.out.println("7 - Cancelar Participação");
-            System.out.println("8 - Listar Meus Eventos");
-            System.out.println("0 - Sair");
-            System.out.print("Opção: ");
-            
-            op = sc.nextInt();  // Lê a opção digitada
-            sc.nextLine();      // Limpa o buffer do Enter
+usuario = new Usuario(nome, email, cidade);  
+// Cria um objeto da classe Usuario com os dados informados.
 
-            if (op == 0) break; // Sai do loop se o usuário digitar 0
+break;  
+// Sai do case 1 e volta para o switch.case 2:  
+    System.out.print("Nome do evento: ");  
+    String enome = sc.nextLine();  
+    // Lê o nome do evento.
 
-            switch (op) {  
-                case 1:  
-                    // Cadastro de usuário
-                    System.out.print("Nome: ");  
-                    String nome = sc.nextLine();  
+System.out.print("Endereço: ");  
+String end = sc.nextLine();  
+// Lê o endereço do evento.
 
-                    System.out.print("Email: ");  
-                    String email = sc.nextLine();  
+System.out.print("Categoria (FESTA, ESPORTIVO, SHOW, EDUCACAO, OUTROS): ");  
+Categoria cat = Categoria.valueOf(sc.nextLine().toUpperCase());  
+// Lê a categoria como texto, converte para maiúscula e transforma no Enum Categoria.
 
-                    System.out.print("Cidade: ");  
-                    String cidade = sc.nextLine();  
+System.out.print("Início (dd/MM/yyyy HH:mm): ");  
+String inicio = sc.nextLine();  
+// Lê a data e hora de início.
 
-                    usuario = new Usuario(nome, email, cidade);  
-                    break;  
+System.out.print("Fim (dd/MM/yyyy HH:mm): ");  
+String fim = sc.nextLine();  
+// Lê a data e hora de término.
 
-                case 2:  
-                    // Cadastro de evento
-                    System.out.print("Nome do evento: ");  
-                    String enome = sc.nextLine();  
+ System.out.print("Descrição: ");  
+ String desc = sc.nextLine();  
+// Lê a descrição do evento.
 
-                    System.out.print("Endereço: ");  
-                    String end = sc.nextLine();  
+service.cadastrarEvento(enome, end, cat, inicio, fim, desc);  
+// Chama o método de serviço para cadastrar o evento.
 
-                    System.out.print("Categoria (FESTA, ESPORTIVO, SHOW, EDUCACAO, OUTROS): ");  
-                    Categoria cat = Categoria.valueOf(sc.nextLine().toUpperCase());  
+break;  case 3:  
+    service.listarEventos();  
+    // Lista todos os eventos cadastrados.  
+    break;
+    case 4:  
+    service.listarEventosAtuais();  
+    // Lista somente os eventos que ainda estão acontecendo.  
+    break;
+    case 5:  
+    service.listarEventosPassados();  
+    // Lista apenas os eventos que já terminaram.  
+    break;
+case 6:  
+    System.out.println("Digite o nome do evento: ");  
+    String eventoP = sc.nextLine();  
+    // Pede o nome do evento que o usuário quer participar.
 
-                    System.out.print("Início (dd/MM/yyyy HH:mm): ");  
-                    String inicio = sc.nextLine();  
+for (Evento e : service.eventos) {  
+        // Percorre todos os eventos cadastrados.
 
-                    System.out.print("Fim (dd/MM/yyyy HH:mm): ");  
-                    String fim = sc.nextLine();  
+if (e.nome.equalsIgnoreCase(eventoP)) {  
+            // Se o nome do evento for igual ao digitado (ignora maiúsculas/minúsculas):
 
-                    System.out.print("Descrição: ");  
-                    String desc = sc.nextLine();  
+e.participantes.add(usuario);  
+// Adiciona o usuário na lista de participantes do evento.
 
-                    service.cadastrarEvento(enome, end, cat, inicio, fim, desc);  
-                    break;  
-
-                case 3:  
-                    // Lista todos os eventos
-                    service.listarEventos();  
-                    break;  
-
-                case 4:  
-                    // Lista eventos atuais
-                    service.listarEventosAtuais();  
-                    break;  
-
-                case 5:  
-                    // Lista eventos passados
-                    service.listarEventosPassados();  
-                    break;  
-
-                case 6:  
-                    // Participar de um evento
-                    System.out.println("Digite o nome do evento: ");  
-                    String eventoP = sc.nextLine();  
-
-                    for (Evento e : service.eventos) {  
-                        if (e.nome.equalsIgnoreCase(eventoP)) {  
-                            e.participantes.add(usuario);  
-                            System.out.println("Você está participando de: " + e.nome);  
-                        }  
-                    }  
-                    break;  
-
-                case 7:  
-                    // Cancelar participação
-                    System.out.println("Digite o nome do evento: ");  
-                    String eventoC = sc.nextLine();  
-
-                    for (Evento e : service.eventos) {  
-                        e.participantes.removeIf(u -> u.equals(usuario));  
-                    }  
-
-                    System.out.println("Participação cancelada se existia.");  
-                    break;  
-
-                case 8:  
-                    // Listar eventos em que o usuário participa
-                    for (Evento e : service.eventos) {  
-                        if (e.participantes.contains(usuario)) {  
-                            System.out.println(e);  
-                        }  
-                    }  
-                    break;  
-            }  
-
-            // Tenta salvar os eventos no arquivo
-            try {  
-                service.salvarEventos(arquivo);  
-            } catch (IOException e) {  
-                System.out.println("Erro ao salvar eventos: " + e.getMessage());  
-            }  
+System.out.println("Você está participando de: " + e.nome);  
+            // Informa que a participação foi confirmada.
         }  
-
-        sc.close();  // Fecha o Scanner
     }  
+    break;
+case 7:  
+    System.out.println("Digite o nome do evento: ");  
+    String eventoC = sc.nextLine();  
+    // Pede o nome do evento para cancelar a participação.
+
+for (Evento e : service.eventos) {  
+        // Percorre todos os eventos.
+
+e.participantes.removeIf(u -> u.equals(usuario));  
+        // Remove o usuário da lista de participantes (se ele estiver lá).
+    }  
+
+ System.out.println("Participação cancelada se existia.");  
+    // Informa que a remoção foi feita (ou já não existia).  
+    break;
+    case 8:  
+    for (Evento e : service.eventos) {  
+        // Percorre todos os eventos.
+
+if (e.participantes.contains(usuario)) {  
+            // Verifica se o usuário está na lista de participantes.
+
+System.out.println(e);  
+            // Imprime as informações do evento (toString() da classe Evento).
+        }  
+    }  
+    break;
+
+try {  
+service.salvarEventos(arquivo);  
+    // Tenta salvar todos os eventos em um arquivo.
+
+} catch (IOException e) {  
+    System.out.println("Erro ao salvar eventos: " + e.getMessage());  
+    // Caso ocorra erro de I/O (arquivo), mostra a mensagem de erro.
 }
+}  
+sc.close();  
+// Fecha o objeto Scanner para liberar os recursos.
+
+}  
+}  
+// Fecha os blocos do while, switch, ou da classe principal.
+
+
+
+
+
+
+
